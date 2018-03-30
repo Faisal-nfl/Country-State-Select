@@ -114,13 +114,13 @@ function CountryStateSelect(options) {
   //Build the HTML for our dropdown menus
   function buildStatesDropdown(data) {
 
-    if (data.length === 0) {
+    if (data.cscs.length === 0) {
       html = '<input id="' + state_id + '" name="' + state_name + '" class="' + state_class + '" type="text"  type="text" value="" >';
     } else {
       html = '<select id="' + state_id + '" name="' + state_name + '" class="' + state_class + '" >';
 
-      for (i = 0; i < data.length; i++) {
-        html += '<option value='+data[i][0]+'>' + data[i][1] + '</option>';
+      for (i = 0; i < data.cscs.length; i++) {
+        html += '<option value='+data.cscs[i][0]+'>' + data.cscs[i][1] + '</option>';
       }
 
       html += '</select>';
@@ -129,11 +129,11 @@ function CountryStateSelect(options) {
     $('#' + state_id).replaceWith(html);
 
     //This has to happen AFTER we've replaced the dropdown or text
-    if (data.length > 0) {
+    if (data.cscs.length > 0) {
       addChosenToState();
     }
 
-    // [142] FIXME # Is there any other way to call city method , it is adding change method in every state change 
+    // [142] FIXME # Is there any other way to call city method , it is adding change method in every state change
     if(typeof city_name !== "undefined" ){
       citiesDropdown();
     };
