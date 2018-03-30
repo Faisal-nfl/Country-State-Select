@@ -58,7 +58,7 @@ function CountryStateSelect(options) {
       dataType: 'json',
       cache: false,
       data: {country_id: id},
-      success: function (data) { buildStatesDropdown(data) }
+      success: function (data) { buildStatesDropdown(data.cscs ) }
     });
   }
 
