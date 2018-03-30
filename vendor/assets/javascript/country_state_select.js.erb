@@ -16,7 +16,37 @@ function CountryStateSelect(options) {
     addChosenToState();
 
     $("#" + country_id).change(function () {
-      return findStates($(this).val());
+      removeChosenFromFields();
+
+      //Perform AJAX request to get the data; on success, build the dropdown
+      return $.ajax({
+        url: "/find_states",
+        type: 'post',
+        dataType: 'json',
+        cache: false,
+        data: {country_id: $(this).val()},
+        success: function (data) {
+          data = data.cscs
+          if (data.length === 0) {
+            html = '<input id="' + state_id + '" name="' + state_name + '" class="' + state_class + '" type="text"  type="text" value="" >';
+          } else {
+            html = '<select id="' + state_id + '" name="' + state_name + '" class="' + state_class + '" >';
+
+            for (i = 0; i < data.length; i++) {
+              html += '<option>' + data[i][1] + '</option>';
+            }
+
+            html += '</select>';
+          }
+
+          $('#' + state_id).replaceWith(html);
+
+          //This has to happen AFTER we've replaced the dropdown or text
+          if (data.length > 0) {
+            addChosenToState();
+          }
+        }
+      });
     });
   }
 
@@ -46,44 +76,5 @@ function CountryStateSelect(options) {
     return options.hasOwnProperty("chosen_ui") && options['chosen_ui'];
   }
 
-  function findStates(id) {
-
-    //Remove all Chosen from existing fields
-    removeChosenFromFields();
-
-    //Perform AJAX request to get the data; on success, build the dropdown
-    $.ajax({
-      url: "/find_states",
-      type: 'post',
-      dataType: 'json',
-      cache: false,
-      data: {country_id: id},
-      success: function (data) { buildStatesDropdown(data.cscs ) }
-    });
-  }
-
-  //Build the HTML for our dropdown menus
-  function buildStatesDropdown(data) {
-
-    if (data.length === 0) {
-      html = '<input id="' + state_id + '" name="' + state_name + '" class="' + state_class + '" type="text"  type="text" value="" >';
-    } else {
-      html = '<select id="' + state_id + '" name="' + state_name + '" class="' + state_class + '" >';
-
-      for (i = 0; i < data.length; i++) {
-        html += '<option>' + data[i][1] + '</option>';
-      }
-
-      html += '</select>';
-    }
-
-    $('#' + state_id).replaceWith(html);
-
-    //This has to happen AFTER we've replaced the dropdown or text
-    if (data.length > 0) {
-      addChosenToState();
-    }
-
-  }
 
 }
