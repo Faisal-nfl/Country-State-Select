@@ -21,7 +21,7 @@ function CountryStateSelect(options) {
   }
 
   function addChosenToState(){
-    if (chosenIsRequired && stateIsNotText()) {
+    if (chosenIsRequired() && stateIsNotText()) {
       $('#' + state_id).chosen();
     }
   }
@@ -31,13 +31,13 @@ function CountryStateSelect(options) {
   }
 
   function addChosenToCountry(){
-    if (chosenIsRequired) {
+    if (chosenIsRequired()) {
       $('#' + country_id).chosen();
     }
   }
 
   function removeChosenFromFields(){
-    if (chosenIsRequired) {
+    if (chosenIsRequired()) {
       $("#" + options['state_id'] + "_chosen").remove();
     }
   }
