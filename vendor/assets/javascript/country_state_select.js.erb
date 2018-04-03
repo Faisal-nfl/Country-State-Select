@@ -17,7 +17,8 @@ function CountryStateSelect(options) {
 
     $("#" + country_id).change(function () {
       removeChosenFromFields();
-      $('#shipping' + country_id).removeClass('hidden')
+      $('#shipping_' + country_id).removeClass('hidden')
+      $('#' + state_id).prop('disabled',true);
       //Perform AJAX request to get the data; on success, build the dropdown
       return $.ajax({
         url: "/find_states",
@@ -44,7 +45,7 @@ function CountryStateSelect(options) {
           if (data.length > 0) {
             addChosenToState();
           }
-          $('#shipping' + country_id).addClass('hidden')
+          $('#shipping_' + country_id).addClass('hidden')
         }
       });
     });
